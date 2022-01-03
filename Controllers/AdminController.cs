@@ -9,8 +9,28 @@ namespace WebAppRating.Controllers
 {
     public class AdminController : Controller
     {
-        // GET: Admin
+
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Autherize(Admin userModel)
+        {
+            using (RatingDBEntities db = new RatingDBEntities())
+            {
+                var userDetails = db.Admins.Where(x => x.UserName == userModel.UserName && x.Password == userModel.Password).FirstOrDefault();
+                if (userDetails == null)
+                {
+                    userModel.LoginErrorMessage = "Wrong username or password";
+                    return View("Index",userModel);
+                }
+            }
+            return View();
+        }
+        // GET: Admin
+        public ActionResult List()
         {
             using (RatingDBEntities db = new RatingDBEntities())
             {
@@ -43,7 +63,7 @@ namespace WebAppRating.Controllers
                     db.Articles.Add(articles);
                     db.SaveChanges();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
             catch
             {
@@ -72,7 +92,7 @@ namespace WebAppRating.Controllers
                     db.Entry(article).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
             catch
             {
@@ -102,7 +122,7 @@ namespace WebAppRating.Controllers
                     db.Articles.Remove(article);
                     db.SaveChanges();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
             catch
             {

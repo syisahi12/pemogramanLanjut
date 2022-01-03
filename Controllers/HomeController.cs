@@ -37,7 +37,7 @@ namespace WebAppRating.Controllers
                                                                          ArticleId = objComment.ArticleId,
                                                                          CommentDescription = objComment.CommentDescription,
                                                                          CommentId = objComment.CommentId,
-                                                                         CommentedOn = objComment.CommentedOn,
+                                                                         CommentedOn = (DateTime)objComment.CommentedOn,
                                                                          Rating = objComment.Rating,
                                                                      }).ToList();
             ViewBag.ArticleId = articleId;
