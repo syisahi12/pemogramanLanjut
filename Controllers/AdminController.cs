@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using WebAppRating.Models;
 
 namespace WebAppRating.Controllers
@@ -26,10 +27,24 @@ namespace WebAppRating.Controllers
                     userModel.LoginErrorMessage = "Wrong username or password";
                     return View("Index",userModel);
                 }
+                else
+                {
+                    FormsAuthentication.SetAuthCookie(userModel.UserName, false);
+                    Session["UserName"] = userDetails.UserName;
+                    Session["UserId"] = userDetails.UserID;
+                    return RedirectToAction("List", "Admin");
+                }
             }
-            return View();
+        }
+
+        public ActionResult LogOut()
+        {
+            Session.Abandon();
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Admin");
         }
         // GET: Admin
+        [Authorize]
         public ActionResult List()
         {
             using (RatingDBEntities db = new RatingDBEntities())
@@ -40,18 +55,21 @@ namespace WebAppRating.Controllers
         }
 
         // GET: Admin/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             return View();
         }
 
         // GET: Admin/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: Admin/Create
+        [Authorize]
         [HttpPost]
         public ActionResult Create(Article articles)
         {
@@ -71,6 +89,7 @@ namespace WebAppRating.Controllers
             }
         }
 
+        [Authorize]
         // GET: Admin/Edit/5
         public ActionResult Edit(int id)
         {
@@ -81,6 +100,7 @@ namespace WebAppRating.Controllers
         }
 
         // POST: Admin/Edit/5
+        [Authorize]
         [HttpPost]
         public ActionResult Edit(int id, Article article)
         {
@@ -101,6 +121,7 @@ namespace WebAppRating.Controllers
         }
 
         // GET: Admin/Delete/5
+        [Authorize]
         public ActionResult Delete(int id)
         {
             using (RatingDBEntities db = new RatingDBEntities())
@@ -110,6 +131,7 @@ namespace WebAppRating.Controllers
         }
 
         // POST: Admin/Delete/5
+        [Authorize]
         [HttpPost]
         public ActionResult Delete(int id, Article article)
         {

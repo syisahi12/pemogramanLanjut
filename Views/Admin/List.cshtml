@@ -1,6 +1,19 @@
 ﻿@model IEnumerable<WebAppRating.Models.Article>
-
+@{
+    if (Session["UserId"] == null)
+    {
+        Response.Redirect("~/Admin/Index");
+    }
+    ViewBag.Title = "Index";
+    ViewBag.LoginIcon = "glyphicon glyphicon-log-out";
+    ViewBag.LoginTitle = "LogOut";
+    ViewBag.LoginUrl = Url.Action("LogOut","Admin");
+}
 <p style="margin-top: 100px">
+    @if (@Session["userName"] != null)
+    {
+        <h2>Welcome back, @Session["userName"].ToString()</h2>
+    }
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
