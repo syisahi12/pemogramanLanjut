@@ -21,7 +21,8 @@
                 @Html.ActionLink("NimeKome", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="@ViewBag.LoginUrl"><span class="@ViewBag.LoginIcon"></span> @ViewBag.LoginTitle</a></li>
                 </ul>
             </div>
         </div>
