@@ -54,13 +54,6 @@ namespace WebAppRating.Controllers
            
         }
 
-        // GET: Admin/Details/5
-        [Authorize]
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: Admin/Create
         [Authorize]
         public ActionResult Create()
